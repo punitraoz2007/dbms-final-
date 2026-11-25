@@ -1,0 +1,6 @@
+{
+  "name": "RentEase - Tenant Management System",
+  "description": "A full-stack SaaS tenant and rental property management platform for Admins, Landlords, and Tenants.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

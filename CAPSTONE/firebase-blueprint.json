@@ -1,0 +1,284 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role-based access information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "fullName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "landlord", "tenant"] },
+        "phone": { "type": "string" },
+        "city": { "type": "string" },
+        "address": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "disabled"] },
+        "landlordId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "unitId": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "email", "fullName", "role", "status"]
+    },
+    "Landlord": {
+      "title": "Landlord",
+      "description": "Landlord details and status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "city": { "type": "string" },
+        "address": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "disabled"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "fullName", "email", "status"]
+    },
+    "Property": {
+      "title": "Property",
+      "description": "Rental property owned by landlord",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["Apartment", "House", "Villa", "PG", "Commercial", "Other"] },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "pinCode": { "type": "string" },
+        "description": { "type": "string" },
+        "totalUnits": { "type": "number" },
+        "status": { "type": "string", "enum": ["Active", "Under Maintenance", "Inactive"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "landlordId", "name", "type", "address", "city", "status"]
+    },
+    "Unit": {
+      "title": "Unit",
+      "description": "Specific unit or room in a property",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "unitNumber": { "type": "string" },
+        "floor": { "type": "string" },
+        "monthlyRent": { "type": "number" },
+        "securityDeposit": { "type": "number" },
+        "furnishingStatus": { "type": "string", "enum": ["Furnished", "Semi-Furnished", "Unfurnished"] },
+        "status": { "type": "string", "enum": ["Available", "Occupied", "Maintenance"] },
+        "currentTenantId": { "type": "string" },
+        "currentTenantName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "propertyId", "landlordId", "unitNumber", "monthlyRent", "status"]
+    },
+    "Tenant": {
+      "title": "Tenant",
+      "description": "Tenant entity record associated with a unit and landlord",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "unitId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "leaseStartDate": { "type": "string" },
+        "leaseEndDate": { "type": "string" },
+        "monthlyRent": { "type": "number" },
+        "securityDeposit": { "type": "number" },
+        "status": { "type": "string", "enum": ["Active", "Inactive"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "landlordId", "fullName", "email", "status"]
+    },
+    "Lease": {
+      "title": "Lease",
+      "description": "Rental lease agreement details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "unitId": { "type": "string" },
+        "tenantName": { "type": "string" },
+        "propertyName": { "type": "string" },
+        "unitNumber": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "monthlyRent": { "type": "number" },
+        "securityDeposit": { "type": "number" },
+        "status": { "type": "string", "enum": ["Active", "Expired", "Terminated", "Pending"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "landlordId", "tenantId", "propertyId", "unitId", "startDate", "endDate", "monthlyRent", "status"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Rent and deposit payment transaction record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "leaseId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "unitId": { "type": "string" },
+        "tenantName": { "type": "string" },
+        "unitNumber": { "type": "string" },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string" },
+        "paymentDate": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["Bank Transfer", "UPI", "Cash", "Cheque", "Card"] },
+        "status": { "type": "string", "enum": ["Paid", "Pending", "Overdue"] },
+        "transactionRef": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "landlordId", "tenantId", "amount", "dueDate", "status"]
+    },
+    "Complaint": {
+      "title": "Complaint",
+      "description": "Maintenance request or issue submitted by tenant",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "tenantId": { "type": "string" },
+        "tenantName": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyName": { "type": "string" },
+        "unitId": { "type": "string" },
+        "unitNumber": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["Plumbing", "Electricity", "Maintenance", "Internet", "Security", "Other"] },
+        "priority": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "status": { "type": "string", "enum": ["Open", "In Progress", "Resolved", "Closed"] },
+        "resolutionNotes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "landlordId", "tenantId", "title", "description", "category", "priority", "status"]
+    },
+    "Notice": {
+      "title": "Notice",
+      "description": "Notice broadcasted by landlord to tenants",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyName": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "targetTenants": { "type": "string" },
+        "date": { "type": "string" },
+        "expiryDate": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "landlordId", "title", "message", "date"]
+    },
+    "Invitation": {
+      "title": "Invitation",
+      "description": "Onboarding invitation for landlord or tenant",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["landlord", "tenant"] },
+        "email": { "type": "string" },
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyName": { "type": "string" },
+        "unitId": { "type": "string" },
+        "unitNumber": { "type": "string" },
+        "monthlyRent": { "type": "number" },
+        "securityDeposit": { "type": "number" },
+        "leaseStartDate": { "type": "string" },
+        "leaseEndDate": { "type": "string" },
+        "city": { "type": "string" },
+        "address": { "type": "string" },
+        "status": { "type": "string", "enum": ["Pending", "Accepted", "Expired"] },
+        "token": { "type": "string" },
+        "expiresAt": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "type", "email", "fullName", "status", "token"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "System and business activity audit trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "actorId": { "type": "string" },
+        "actorName": { "type": "string" },
+        "actorRole": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "landlordId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "actorName", "actorRole", "action", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/landlords/{landlordId}": {
+      "schema": "Landlord",
+      "description": "Landlords directory"
+    },
+    "/properties/{propertyId}": {
+      "schema": "Property",
+      "description": "Rental properties"
+    },
+    "/units/{unitId}": {
+      "schema": "Unit",
+      "description": "Rental units"
+    },
+    "/tenants/{tenantId}": {
+      "schema": "Tenant",
+      "description": "Tenants roster"
+    },
+    "/leases/{leaseId}": {
+      "schema": "Lease",
+      "description": "Lease agreements"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Payment records"
+    },
+    "/complaints/{complaintId}": {
+      "schema": "Complaint",
+      "description": "Tenant maintenance complaints"
+    },
+    "/notices/{noticeId}": {
+      "schema": "Notice",
+      "description": "Landlord notices"
+    },
+    "/invitations/{invitationId}": {
+      "schema": "Invitation",
+      "description": "Invitations sent to landlords and tenants"
+    },
+    "/activity_logs/{logId}": {
+      "schema": "ActivityLog",
+      "description": "Activity logs for audit trail"
+    }
+  }
+}
